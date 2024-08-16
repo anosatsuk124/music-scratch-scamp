@@ -1,3 +1,4 @@
+import utils as u
 import scamp as sc
 import scamp_extensions.pitch as pitch
 
@@ -9,39 +10,8 @@ SCALE = SCALE.transpose(12)
 
 Score = list[t.Union[float, list[float]]]
 
-s = sc.Session()
 # s.fast_forward_to_beat(100)
 # s.tempo = 150
-
-
-def to_pitch(score: Score, scale: pitch.Scale) -> Score:
-    """
-    Converts a list of degrees to a list of pitches
-    """
-
-    pitch_list = []
-
-    for el in score:
-        if isinstance(el, list):
-            pitch_list.append([scale.degree_to_pitch(p) for p in el])
-        else:
-            pitch_list.append(scale.degree_to_pitch(el))
-
-    return pitch_list
-
-
-def play_score(track: sc.ScampInstrument, score: Score, dur: list[float], scale: pitch.Scale = SCALE, vol: float = 0.8, props: sc.NoteProperties = None):
-    count = 0
-    for note in to_pitch(score, scale):
-        # Same to: piano1.play_note(to_pitch(score)[i], vol, dur[i])
-        if isinstance(note, list):
-            track.play_chord(note, volume=vol,
-                             length=dur[count], properties=props)
-        else:
-            track.play_note(note, volume=vol,
-                            length=dur[count], properties=props)
-
-        count += 1
 
 
 def melody(clock: sc.Clock, track,):
@@ -52,10 +22,14 @@ def melody(clock: sc.Clock, track,):
     melody1 = [0, -1, 0, -2]
     melody2 = [el+2 for el in melody1]
     dur = [1, 1/2, 1/2, 1]
-    for i in range(16):
-        play_score(track, melody1, dur, scale, props=props)
-    for i in range(4):
-        play_score(track, melody2, dur, scale, props=props)
+    for _ in range(16):
+        u.play_score(track, melody1, dur, scale, props=props)
+    for _ in range(4):
+        u.play_score(track, melody2, dur, scale, props=props)
+
+    u.rest(3)
+
+    clock.kill()
 
 
 def song(clock: sc.Clock, track: sc.ScampInstrument):
@@ -67,17 +41,21 @@ def song(clock: sc.Clock, track: sc.ScampInstrument):
     melody1 = [0, 0, -1, 0, -2]
     melody2 = [el+2 for el in melody1]
     dur = [1/2, 1/2, 1/2, 1/2, 1]
-    for i in range(16):
-        play_score(track, melody1, dur, scale, props=props)
-    for i in range(4):
-        play_score(track, melody2, dur, scale, props=props)
+    for _ in range(16):
+        u.play_score(track, melody1, dur, scale, props=props)
+    for _ in range(4):
+        u.play_score(track, melody2, dur, scale, props=props)
+
+    u.rest(3)
+
+    clock.kill()
 
 
 def acommpany(clock: sc.Clock, track):
     scale = copy.deepcopy(SCALE)  # scale.transpose(12)
 
-    # props = "length * 1.5"
     props = None
+    props = "length * 2.25"
 
     ac1 = [-2, -3, -4, -5]
 
@@ -86,28 +64,40 @@ def acommpany(clock: sc.Clock, track):
     dur = [3 for _ in range(4)]
 
     for _ in range(4):
-        clock.wait(3)  # Wait 3 beats
+        u.rest(3)
     for i in range(2):
-        play_score(track, [n-i for n in ac1], dur, scale, props=props)
+        u.play_score(track, [n-i for n in ac1], dur, scale, props=props)
+
+    u.rest(3*4)
+    clock.kill()
 
 
-def main():
-    s.tempo = 160
-    piano = s.new_part("song", preset="piano")
-    harp = s.new_part("harp")
-    organ1 = s.new_part("organ")
+def main(session: sc.Session):
+    session.tempo = 160
 
-    s.wait(3)
-    s.fork(acommpany, args=[organ1])
-    s.fork(melody, args=[harp])
-    s.fork(song, args=[piano])
+    piano = session.new_part("song", preset="piano")
+    harp = session.new_part("harp")
+    organ1 = session.new_part("organ")
+    cello = session.new_part("cello")
+
+    session.fork(acommpany, args=[organ1])
+    session.fork(acommpany, args=[cello])
+    session.fork(melody, args=[harp])
+    session.fork(song, args=[piano])
+
+    try:
+        session.wait_for_children_to_finish()
+    finally:
+        session.kill()
 
 
 def show_score():
-    main()
-    s.start_transcribing()
-    s.wait_for_children_to_finish()
-    performance = s.stop_transcribing()
+    session = sc.Session()
+    session.fast_forward()
+
+    main(session)
+
+    performance = session.stop_transcribing()
     score = performance.to_score(
         title="Carol of the Old Ones (Japanese version)",
         composer="",
@@ -118,15 +108,19 @@ def show_score():
     score.export_music_xml("CarolOfTheOldOnes.musicxml")
 
 
-show_score()
+def play():
+    session = sc.Session()
+    main(session)
 
 
 def play_repeatly():
     while True:
-        main()
-        s.wait_for_children_to_finish()
+        play()
 
 
-s.print_default_soundfont_presets()
+# s.print_default_soundfont_presets()
+
+# show_score()
 
 # play_repeatly()
+# play()

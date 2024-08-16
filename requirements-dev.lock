@@ -16,6 +16,8 @@ alabaster==1.0.0
     # via sphinx
 arpeggio==2.0.2
     # via scamp
+asttokens==2.4.1
+    # via stack-data
 babel==2.16.0
     # via sphinx
 black==24.8.0
@@ -28,8 +30,12 @@ click==8.1.7
     # via black
 clockblocks==0.6.9.post1
     # via scamp
+decorator==5.1.1
+    # via ipython
 docutils==0.21.2
     # via sphinx
+executing==2.0.1
+    # via stack-data
 expenvelope==0.7.2
     # via clockblocks
     # via scamp
@@ -37,10 +43,16 @@ idna==3.7
     # via requests
 imagesize==1.4.1
     # via sphinx
+ipython==8.26.0
+    # via music-scratch-scamp
+jedi==0.19.1
+    # via ipython
 jinja2==3.1.4
     # via sphinx
 markupsafe==2.1.5
     # via jinja2
+matplotlib-inline==0.1.7
+    # via ipython
 midiutil==1.2.1
     # via scamp
 mypy-extensions==1.0.0
@@ -48,13 +60,24 @@ mypy-extensions==1.0.0
 packaging==24.1
     # via black
     # via sphinx
+parso==0.8.4
+    # via jedi
 pathspec==0.12.1
     # via black
+pexpect==4.9.0
+    # via ipython
 platformdirs==4.2.2
     # via black
 ply==3.11
     # via abjad
+prompt-toolkit==3.0.47
+    # via ipython
+ptyprocess==0.7.0
+    # via pexpect
+pure-eval==0.2.3
+    # via stack-data
 pygments==2.18.0
+    # via ipython
     # via sphinx
 pymusicxml==0.5.6
     # via scamp
@@ -71,6 +94,8 @@ scamp==0.9.2.post2
     # via scamp-extensions
 scamp-extensions==0.3.5.post2
     # via music-scratch-scamp
+six==1.16.0
+    # via asttokens
 snowballstemmer==2.2.0
     # via sphinx
 sphinx==8.0.2
@@ -87,9 +112,18 @@ sphinxcontrib-qthelp==2.0.0
     # via sphinx
 sphinxcontrib-serializinghtml==2.0.0
     # via sphinx
+stack-data==0.6.3
+    # via ipython
+traitlets==5.14.3
+    # via ipython
+    # via matplotlib-inline
+typing-extensions==4.12.2
+    # via ipython
 unidecode==1.3.8
     # via uqbar
 uqbar==0.7.4
     # via abjad
 urllib3==2.2.2
     # via requests
+wcwidth==0.2.13
+    # via prompt-toolkit

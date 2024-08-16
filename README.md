@@ -1,3 +1,7 @@
 # music-scratch-scamp
 
-Describe your project here.
+To interact with IPython, run the following command:
+
+```bash
+rye run python ./src/scratch.py
+```
