@@ -57,6 +57,8 @@ midiutil==1.2.1
     # via scamp
 mypy-extensions==1.0.0
     # via black
+numpy==2.0.1
+    # via music-scratch-scamp
 packaging==24.1
     # via black
     # via sphinx

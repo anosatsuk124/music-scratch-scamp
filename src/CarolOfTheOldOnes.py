@@ -2,16 +2,14 @@ import utils as u
 import scamp as sc
 import scamp_extensions.pitch as pitch
 
+import numpy as np
+
 import copy
-import typing as t
 
 SCALE = pitch.Scale.major(60)
 SCALE = SCALE.transpose(12)
 
-Score = list[t.Union[float, list[float]]]
-
-# s.fast_forward_to_beat(100)
-# s.tempo = 150
+TEMPO = 160
 
 
 def melody(clock: sc.Clock, track,):
@@ -33,18 +31,31 @@ def melody(clock: sc.Clock, track,):
 
 
 def song(clock: sc.Clock, track: sc.ScampInstrument):
-    # props = "length * 1"
-    props = None
-
     scale = copy.deepcopy(SCALE)
 
     melody1 = [0, 0, -1, 0, -2]
     melody2 = [el+2 for el in melody1]
     dur = [1/2, 1/2, 1/2, 1/2, 1]
-    for _ in range(16):
-        u.play_score(track, melody1, dur, scale, props=props)
-    for _ in range(4):
-        u.play_score(track, melody2, dur, scale, props=props)
+    for _ in range(12):
+        u.play_score(track, melody1, dur, scale, vol=0.2)
+
+    vols = np.linspace(0.2, 0.4, 8)
+
+    for i in range(4):
+        v = vols[i]
+        print(v)
+
+        u.play_score(track, melody1, dur, scale, vol=v)
+
+    vols = np.linspace(0.4, 0.7, 4)
+
+    for i in range(4):
+        v = vols[i]
+        print(v)
+
+        u.play_score(track, melody2, dur, scale, props={
+            "articulation": "staccato",
+        }, vol=v)
 
     u.rest(3)
 
@@ -72,45 +83,70 @@ def acommpany(clock: sc.Clock, track):
     clock.kill()
 
 
-def main(session: sc.Session):
-    session.tempo = 160
+def scores(session: sc.Session, parts: list[sc.ScampInstrument]):
+    session.fork(acommpany, args=[parts[0]])
+    session.fork(song, args=[parts[1]])
+    session.fork(melody, args=[parts[2]])
+    session.fork(song, args=[parts[3]])
 
-    piano = session.new_part("song", preset="piano")
-    harp = session.new_part("harp")
-    organ1 = session.new_part("organ")
-    cello = session.new_part("cello")
 
-    session.fork(acommpany, args=[organ1])
-    session.fork(acommpany, args=[cello])
-    session.fork(melody, args=[harp])
-    session.fork(song, args=[piano])
+def parts(session: sc.Session):
+    song = session.new_part("song", preset="Piano Merlin")
+    harp = session.new_part("harp", preset="Harp LP2")
+    organ1 = session.new_part("organ", preset="Organ 1")
+    violin = session.new_part("violin", preset="Violin LP3")
+
+    return [organ1, violin, harp, song]
+
+
+def create_performance() -> sc.Performance:
+    session = sc.Session(TEMPO)
+
+    part = parts(session)
+
+    session.start_transcribing()
+    session.fast_forward()
+
+    scores(session, part)
 
     try:
         session.wait_for_children_to_finish()
     finally:
         session.kill()
 
+    return session.stop_transcribing()
+
 
 def show_score():
-    session = sc.Session()
-    session.fast_forward()
+    performance = create_performance()
 
-    main(session)
-
-    performance = session.stop_transcribing()
     score = performance.to_score(
         title="Carol of the Old Ones (Japanese version)",
         composer="",
         time_signature=["3/4"]
     )
     score.show()
+
+
+def export_score():
+    performance = create_performance()
+    score = performance.to_score(
+        title="Carol of the Old Ones (Japanese version)",
+        composer="",
+        time_signature=["3/4"]
+    )
+
     performance.export_to_midi_file("CarolOfTheOldOnes.midi")
     score.export_music_xml("CarolOfTheOldOnes.musicxml")
 
 
 def play():
-    session = sc.Session()
-    main(session)
+    session = sc.Session(TEMPO)
+    scores(session, parts(session))
+    try:
+        session.wait_for_children_to_finish()
+    finally:
+        session.kill()
 
 
 def play_repeatly():
