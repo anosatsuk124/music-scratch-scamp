@@ -28,7 +28,10 @@ def to_pitch(score: Score, scale: pitch.Scale) -> Score:
     return pitch_list
 
 
-def play_score(track: sc.ScampInstrument, score: Score, dur: list[float], scale: pitch.Scale = SCALE, vol: float = 0.8, props: sc.NoteProperties = None):
+def play_score(track: sc.ScampInstrument, score: Score, dur: list[float],
+               scale: pitch.Scale = SCALE, vol: float = 0.8,
+               props: sc.NoteProperties = None,
+               ):
     """
     Play a score with a given duration and scale
     """

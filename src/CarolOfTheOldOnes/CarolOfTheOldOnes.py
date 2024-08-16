@@ -157,12 +157,13 @@ def export_score():
 
 
 def play():
-    session = sc.Session(TEMPO)
-    scores(session, create_parts(session))
+    global SESSION
+    SESSION = sc.Session(TEMPO)
+    scores(SESSION, create_parts(SESSION))
     try:
-        session.wait_for_children_to_finish()
+        SESSION.wait_for_children_to_finish()
     finally:
-        session.kill()
+        SESSION.kill()
 
 
 def play_midi():
@@ -173,6 +174,11 @@ def play_midi():
         SESSION.wait_for_children_to_finish()
     finally:
         SESSION.kill()
+
+
+def force_stop():
+    global SESSION
+    SESSION.kill()
 
 
 def play_repeatly():

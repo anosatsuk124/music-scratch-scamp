@@ -127,5 +127,7 @@ uqbar==0.7.4
     # via abjad
 urllib3==2.2.2
     # via requests
+watchdog==4.0.2
+    # via music-scratch-scamp
 wcwidth==0.2.13
     # via prompt-toolkit
