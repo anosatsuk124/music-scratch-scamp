@@ -33,12 +33,16 @@ def show_score():
     score.show()
 
 
-def export_score(path: str):
+def export_score(
+    path: str,
+    title: str = "", composer: str = "",
+    time_singature: list[str] = ["4/4"]
+):
     performance = create_performance()
     score = performance.to_score(
-        title="Carol of the Old Ones (Japanese version)",
-        composer="",
-        time_signature=["3/4"]
+        title=title,
+        composer=composer,
+        time_signature=time_singature
     )
 
     performance.export_to_midi_file(path + ".midi")
