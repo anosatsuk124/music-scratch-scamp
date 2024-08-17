@@ -113,7 +113,7 @@ def melody(clock: sc.Clock, track: sc.ScampInstrument):
 
             scale.transpose(1)
 
-        scale.transpose(2)
+        scale.transpose(1)
         tempo += 10 + i
         clock.tempo = tempo
 
