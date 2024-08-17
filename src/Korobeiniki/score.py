@@ -13,7 +13,7 @@ from fluid import FLUID
 SCALE = pitch.Scale.from_pitches([60, 62, 64-1, 65, 67, 69-1, 71-1, 72])
 
 
-TEMPO = 130
+TEMPO = 140
 
 # ####START SCORES####
 
@@ -62,6 +62,12 @@ def melody(clock: sc.Clock, track: sc.ScampInstrument):
 
     for i, m in enumerate(melody):
         u.play_score(track, m, dur, scale, vol, props=props)
+
+    dur = [1/2, 1/2, 1/2, 1/2]
+
+    u.play_score(track, [None, 3, 3, 5], dur, scale, vol, props=props)
+
+    # u.play_score(track)
 
     u.rest(2)
 
