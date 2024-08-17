@@ -15,7 +15,7 @@ export_score(OUTPUT_FILE_NAME)
 
 FLUID.setting("audio.file.name", OUTPUT_FILE_NAME+".wav")
 # NOTE: Override the default gain setting to prevent clipping
-FLUID.setting("synth.gain", 1.0)
+FLUID.setting("synth.gain", c.EXPORT_GAIN)
 FLUID.start(driver="file")
 
 play_midi(wait=True)
