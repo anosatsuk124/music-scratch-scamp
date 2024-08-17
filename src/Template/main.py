@@ -1,5 +1,6 @@
 import scamp as sc
 import scamp_extensions.pitch as pitch
+import typing as t
 
 from score import TEMPO, scores, set_insts
 
@@ -49,13 +50,20 @@ def export_score(
     score.export_music_xml(path + ".musicxml")
 
 
-def play_midi(seek=0, wait=False):
+def play_midi(
+    seek=0,
+    seek_method: t.Literal["seconds", "beets"] = "seconds",
+    wait=False
+):
     set_insts()
 
     global SESSION
     SESSION = sc.Session(TEMPO)
     # Seek to the beginning of the session
-    SESSION.fast_forward_to_time(seek)
+    if seek_method == "beets":
+        SESSION.fast_forward_in_beats(seek)
+    else:
+        SESSION.fast_forward_in_time(seek)
 
     if wait:
         SESSION.wait(3)
