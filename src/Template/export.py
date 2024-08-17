@@ -1,4 +1,4 @@
-from score import play_midi, export_score, set_insts
+from main import play_midi, export_score
 
 from fluid import FLUID
 
@@ -12,8 +12,6 @@ OUTPUT_FILE_NAME = str((
 )
 
 export_score(OUTPUT_FILE_NAME)
-
-set_insts()
 
 FLUID.setting("audio.file.name", OUTPUT_FILE_NAME+".wav")
 # NOTE: Override the default gain setting to prevent clipping

@@ -1,9 +1,7 @@
-from score import play_midi, set_insts
+from main import play_midi
 
 from fluid import FLUID
 import sys
-
-set_insts()
 
 FLUID.start()
 
