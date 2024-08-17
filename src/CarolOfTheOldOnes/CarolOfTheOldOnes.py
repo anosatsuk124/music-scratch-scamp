@@ -20,19 +20,10 @@ TEMPO = 165
 
 
 def set_insts():
-    vp_violin = FLUID.sfload(
-        str(c.VP_ORCHESTRA/"Strings/1st-violin-SOLO-KS-C2.sf2")
-    )
-
-    vp_harp = FLUID.sfload(
-        str(c.VP_ORCHESTRA/"Strings/harp-KS-C0.sf2")
-    )
-
     r3 = FLUID.sfload(
         str(c.FLUID_R3_GM/"FluidR3_GM.sf2")
     )
 
-    # harp = (vp_harp, 0, 0)
     # 0	46	Harp
     harp = (r3, 0, 46)
 
