@@ -38,7 +38,7 @@ def set_insts():
 
 def melody(clock: sc.Clock, track: sc.ScampInstrument):
     props1 = None
-    vol = 0.3
+    vol = 1.0
 
     scale = copy.deepcopy(SCALE)
     # scale = scale.transpose(12)
