@@ -144,51 +144,62 @@ def melody(clock: sc.Clock, track1: sc.ScampInstrument, track2: sc.ScampInstrume
 
         scale.transpose(trans)
 
-    scale1 = copy.deepcopy(SCALE)
+    def experiment1():
+        scale1 = copy.deepcopy(SCALE)
 
-    vol1 = 0.8
+        vol1 = 0.8
 
-    print("start1")
-    clock.fork(once, args=[track1, vol1, scale1, 1])
-    clock.wait_for_children_to_finish()
+        print("start1")
+        clock.fork(once, args=[track1, vol1, scale1, 1])
+        clock.wait_for_children_to_finish()
 
-    scale1 = copy.deepcopy(SCALE)
+        scale1 = copy.deepcopy(SCALE)
 
-    scale2 = copy.deepcopy(scale1)
+        scale2 = copy.deepcopy(scale1)
 
-    scale2.transpose(12)
+        scale2.transpose(12)
 #
-    vol2 = vol1 - 0.1
+        vol2 = vol1 - 0.1
 #     print("start2")
 #     clock.fork(master_palay, args=[2, vol1, scale1, 1, 5])
 #     clock.fork(trackN_play, args=[track3, 2, vol2, scale2, 1])
 #     clock.wait_for_children_to_finish()
 
-    # scale3.transpose(12)
+        # scale3.transpose(12)
 
-    print("start3")
-    # vol3 = vol2 - 0.1
+        print("start3")
+        # vol3 = vol2 - 0.1
 
-    vol3 = vol2 - 0.3
-    clock.fork(master_palay, args=[1, vol1, scale1, -1, 0.55])
-    clock.fork(trackN_play, args=[track2, 1, vol2, scale2, -1])
-    # clock.fork(trackN_play, args=[track3, 1, vol3, scale3, -1])
-    clock.wait_for_children_to_finish()
+        vol3 = vol2 - 0.3
+        clock.fork(master_palay, args=[1, vol1, scale1, -1, 0.55])
+        clock.fork(trackN_play, args=[track2, 1, vol2, scale2, -1])
+        # clock.fork(trackN_play, args=[track3, 1, vol3, scale3, -1])
+        clock.wait_for_children_to_finish()
 
-    scale3 = copy.deepcopy(scale1)
-    scale3.transpose(12)
+        scale3 = copy.deepcopy(scale1)
+        scale3.transpose(12)
 
-    print("start4")
-    clock.fork(once, args=[track1, vol1, scale1, 2])
-    clock.fork(once, args=[track2, vol2, scale2, 2])
-    clock.fork(once, args=[track3, vol3, scale3, 2])
-    clock.wait_for_children_to_finish()
+        print("start4")
+        clock.fork(once, args=[track1, vol1, scale1, 2])
+        clock.fork(once, args=[track2, vol2, scale2, 2])
+        clock.fork(once, args=[track3, vol3, scale3, 2])
+        clock.wait_for_children_to_finish()
 
-    print("start5")
-    clock.fork(master_palay, args=[2, vol1, scale1, 1, 11])
-    clock.fork(trackN_play, args=[track2, 2, vol2, scale2, 1])
-    clock.fork(trackN_play, args=[track3, 2, vol3, scale3, 1])
-    clock.wait_for_children_to_finish()
+        print("start5")
+        clock.fork(master_palay, args=[2, vol1, scale1, 1, 11])
+        clock.fork(trackN_play, args=[track2, 2, vol2, scale2, 1])
+        clock.fork(trackN_play, args=[track3, 2, vol3, scale3, 1])
+        clock.wait_for_children_to_finish()
+
+    def experiment2():
+        scale1 = copy.deepcopy(SCALE)
+
+        vol1 = 0.8
+
+        master_palay(6, vol1, scale1, 1, 5)
+
+    # experiment1()
+    experiment2()
 
     u.rest(2)
 
