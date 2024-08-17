@@ -1,4 +1,4 @@
-from paths import ROOT
+from consts import ROOT
 import os
 import subprocess
 

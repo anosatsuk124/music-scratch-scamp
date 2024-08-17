@@ -29,7 +29,7 @@ try:
     while True:
         PROC = subprocess.Popen(CMD, shell=True)
         PROC.wait()
-        time.sleep(0.5)
+        time.sleep(0.1)
 finally:
     observer.stop()
     observer.join()

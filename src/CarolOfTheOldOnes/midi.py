@@ -1,3 +1,13 @@
-from CarolOfTheOldOnes import play_midi
+from CarolOfTheOldOnes import play_midi, set_insts
 
-play_midi()
+from fluid import FLUID
+import sys
+
+set_insts()
+
+FLUID.start()
+
+seek = float(sys.argv[1] if len(sys.argv) > 1 else 0)
+play_midi(seek)
+
+FLUID.delete()

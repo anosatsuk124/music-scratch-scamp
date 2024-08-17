@@ -4,16 +4,19 @@ version = "0.1.0"
 description = "Add your description here"
 authors = [{ name = "Satsuki Akiba", email = "anosatsuk124@gmail.com" }]
 dependencies = [
-  "scamp>=0.9.2.post2",
-  "python-rtmidi>=1.5.8",
-  "abjad==3.18",
-  "scamp_extensions>=0.3.5.post2",
-  "ipython>=8.26.0",
-  "numpy>=2.0.1",
-  "watchdog>=4.0.2",
+    "scamp>=0.9.2.post2",
+    "python-rtmidi>=1.5.8",
+    "abjad==3.18",
+    "scamp_extensions>=0.3.5.post2",
+    "ipython>=8.26.0",
+    "numpy>=2.0.1",
+    "watchdog>=4.0.2",
+    "pyfluidsynth @ git+https://github.com/nwhitehead/pyfluidsynth.git@e3bf5746c68e3b95e0ae11dbedbd5b299d6a9e02",
+    "soundfile>=0.12.1",
+    "python-dotenv>=1.0.1",
 ]
 readme = "README.md"
-requires-python = ">= 3.8"
+requires-python = ">= 3.11"
 
 [tool.rye]
 managed = true

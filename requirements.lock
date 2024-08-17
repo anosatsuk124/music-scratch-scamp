@@ -24,6 +24,8 @@ black==24.8.0
     # via uqbar
 certifi==2024.7.4
     # via requests
+cffi==1.17.0
+    # via soundfile
 charset-normalizer==3.3.2
     # via requests
 click==8.1.7
@@ -59,6 +61,7 @@ mypy-extensions==1.0.0
     # via black
 numpy==2.0.1
     # via music-scratch-scamp
+    # via pyfluidsynth
 packaging==24.1
     # via black
     # via sphinx
@@ -78,11 +81,17 @@ ptyprocess==0.7.0
     # via pexpect
 pure-eval==0.2.3
     # via stack-data
+pycparser==2.22
+    # via cffi
+pyfluidsynth @ git+https://github.com/nwhitehead/pyfluidsynth.git@e3bf5746c68e3b95e0ae11dbedbd5b299d6a9e02
+    # via music-scratch-scamp
 pygments==2.18.0
     # via ipython
     # via sphinx
 pymusicxml==0.5.6
     # via scamp
+python-dotenv==1.0.1
+    # via music-scratch-scamp
 python-osc==1.8.3
     # via scamp
 python-rtmidi==1.5.8
@@ -100,6 +109,8 @@ six==1.16.0
     # via asttokens
 snowballstemmer==2.2.0
     # via sphinx
+soundfile==0.12.1
+    # via music-scratch-scamp
 sphinx==8.0.2
     # via uqbar
 sphinxcontrib-applehelp==2.0.0
