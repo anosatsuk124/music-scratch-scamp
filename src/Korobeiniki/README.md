@@ -1,6 +1,6 @@
 # Korobeiniki Arrange
 
-<div><video controls src="https://github.com/user-attachments/assets/beb57b18-478c-42e9-9cca-f608fd205eaa" muted="false"></video></div>
+![](https://github.com/user-attachments/assets/beb57b18-478c-42e9-9cca-f608fd205eaa)
 
 ## Based on:
 
