@@ -23,10 +23,17 @@ def set_insts():
         str(c.FLUID_R3_GM/"FluidR3_GM.sf2")
     )
 
+    dmg = FLUID.sfload(
+        str(c.INST_ROOT/"DMG-CPU1.5/DMG-CPU1.5.SF2")
+    )
+
     # 0	26	Jazz Guitar
     piano1 = (r3, 0, 26)
 
-    FLUID.program_select(0, *piano1)
+    # 0	30	FC Triangle
+    piano2 = (dmg, 0, 30)
+
+    FLUID.program_select(0, *piano2)
 
 
 def melody(clock: sc.Clock, track: sc.ScampInstrument):
