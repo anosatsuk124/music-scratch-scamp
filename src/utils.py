@@ -36,21 +36,21 @@ def to_pitch(score: Score, scale: pitch.Scale) -> Score:
 
 def play_score(track: sc.ScampInstrument, score: Score, dur: list[float],
                scale: pitch.Scale = SCALE, vol: float = 0.8,
-               props: sc.NoteProperties = None,
+               props: t.Union[sc.NoteProperties,
+                              tuple[sc.NoteProperties]] = None,
                ):
     """
     Play a score with a given duration and scale
     """
-    count = 0
-    for note in to_pitch(score, scale):
+    for i, note in enumerate(to_pitch(score, scale)):
+        if isinstance(props, tuple):
+            props = props[i] if i < len(props) else None
         # Same to: piano1.play_note(to_pitch(score)[i], vol, dur[i])
         if isinstance(note, list):
             track.play_chord(note, volume=vol,
-                             length=dur[count], properties=props)
+                             length=dur[i], properties=props)
         elif note is None:
-            rest(dur[count])
+            rest(dur[i])
         else:
             track.play_note(note, volume=vol,
-                            length=dur[count], properties=props)
-
-        count += 1
+                            length=dur[i], properties=props)
