@@ -22,3 +22,6 @@ GAIN = float(
 EXPORT_GAIN = float(
     os.getenv("EXPORT_GAIN") if os.getenv("EXPORT_GAIN") else 1.0
 )
+
+OUTPUT_DIR = os.getenv("OUTPUT_DIR") if os.getenv(
+    "OUTPUT_DIR") else ROOT
