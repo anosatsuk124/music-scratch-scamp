@@ -13,7 +13,7 @@ from fluid import FLUID
 SCALE = pitch.Scale.from_pitches([60, 62, 64-1, 65, 67, 69-1, 71-1, 72])
 
 
-TEMPO = 100
+TEMPO = 105
 
 # ####START SCORES####
 
@@ -55,12 +55,12 @@ def melody(clock: sc.Clock, track: sc.ScampInstrument):
         [0, None]
     ]
 
-    melody4 = [
+    melody3 = [
         [7, 6, 5],
         [4, 4, 2],
     ]
 
-    dur4 = dur1
+    dur3 = dur1
 
     def base1():
 
@@ -80,8 +80,8 @@ def melody(clock: sc.Clock, track: sc.ScampInstrument):
                      props=(None, sc.StartSlur(), sc.StopSlur(), None))
 
     def base2():
-        for i, m in enumerate(melody4):
-            u.play_score(track, m, dur4, scale, vol,
+        for i, m in enumerate(melody3):
+            u.play_score(track, m, dur3, scale, vol,
                          props=tuple([None]*3)+props2)
 
         for i, m in enumerate(melody1[3:]):
@@ -92,8 +92,8 @@ def melody(clock: sc.Clock, track: sc.ScampInstrument):
 
     tempo = TEMPO
 
-    for i in range(3):
-        for j in range(2):
+    for i in range(1, 4):
+        for j in range(1, 3):
             print(clock.tempo)
 
             base1()
@@ -103,18 +103,18 @@ def melody(clock: sc.Clock, track: sc.ScampInstrument):
             change()
             base2()
 
+            # scale.transpose(1)
+
+            # change()
+            # base2()
+
             scale.transpose(1)
-
-            change()
-            base2()
-
-            tempo += 5 + j
+            tempo += 5 * j
             clock.tempo = tempo
 
-            scale.transpose(1)
-
         scale.transpose(1)
-        tempo += 10 + i
+
+        tempo += 5 * i * 2
         clock.tempo = tempo
 
     u.rest(2)
