@@ -11,7 +11,7 @@ SESSION = sc.Session()
 SCALE = pitch.Scale.major(60)
 SCALE = SCALE.transpose(12)
 
-TEMPO = 160
+TEMPO = 165
 
 
 def melody(clock: sc.Clock, track,):
@@ -34,24 +34,32 @@ def melody(clock: sc.Clock, track,):
     clock.kill()
 
 
-def song(clock: sc.Clock, track: sc.ScampInstrument):
+def violin(clock: sc.Clock, track: sc.ScampInstrument):
     scale = copy.deepcopy(SCALE)
+
+    vol = 0.5
 
     melody1 = [0, 0, -1, 0, -2]
     melody2 = [el+2 for el in melody1]
     dur = [1/2, 1/2, 1/2, 1/2, 1]
     for _ in range(12):
-        u.play_score(track, melody1, dur, scale, vol=0.4)
+        u.play_score(track, melody1, dur, scale, vol=vol)
 
-    vols = np.linspace(0.4, 0.6, 4)
+    vol2 = vol-0.1
+    vols = np.linspace(vol, vol2, 4)
 
     for i in range(4):
         v = vols[i]
         print(v)
 
-        u.play_score(track, melody1, dur, scale, vol=v)
+        u.play_score(track, melody1, dur, scale, vol=v,
+                     props={
+                         "articulation": "staccato",
+                     })
 
-    vols = np.linspace(0.6, 0.9, 4)
+    vol3 = vol2+0.2
+
+    vols = np.linspace(vol2, vol3, 4)
 
     for i in range(4):
         v = vols[i]
@@ -66,11 +74,51 @@ def song(clock: sc.Clock, track: sc.ScampInstrument):
     clock.kill()
 
 
+def song(clock: sc.Clock, track: sc.ScampInstrument):
+    scale = copy.deepcopy(SCALE)
+
+    vol = 0.5
+
+    melody1 = [0, 0, -1, 0, -2]
+    melody2 = [el+2 for el in melody1]
+    dur = [1/2, 1/2, 1/2, 1/2, 1]
+    for _ in range(12):
+        u.play_score(track, melody1, dur, scale, vol=vol)
+
+    vol2 = vol-0.1
+    vols = np.linspace(vol, vol2, 4)
+
+    for i in range(4):
+        v = vols[i]
+        print(v)
+
+        u.play_score(track, melody1, dur, scale, vol=v,
+                     props={
+                     })
+
+    vol3 = vol2+0.2
+
+    vols = np.linspace(vol2, vol3, 4)
+
+    for i in range(4):
+        v = vols[i]
+        print(v)
+
+        u.play_score(track, melody2, dur, scale, props={
+        }, vol=v)
+
+    u.rest(3)
+
+    clock.kill()
+
+
 def acommpany(clock: sc.Clock, track):
     scale = copy.deepcopy(SCALE)  # scale.transpose(12)
 
+    vol = 0.4
+
     props = None
-    props = "length * 1.25"
+    props = f"length * {1 + 1 / 8}"
 
     ac1 = [-2, -3, -4, -5]
 
@@ -81,17 +129,18 @@ def acommpany(clock: sc.Clock, track):
     for _ in range(4):
         u.rest(3)
     for i in range(2):
-        u.play_score(track, [n-i for n in ac1], dur, scale, props=props)
+        u.play_score(track, [n-i for n in ac1], dur,
+                     scale, props=props, vol=vol)
 
     u.rest(3*4)
     clock.kill()
 
 
 def scores(session: sc.Session, parts: list[sc.ScampInstrument]):
-    # session.fork(acommpany, args=[parts[0]])
-    session.fork(song, args=[parts[1]])
+    session.fork(acommpany, args=[parts[0]])
+    session.fork(violin, args=[parts[1]])
     session.fork(melody, args=[parts[2]])
-    # session.fork(song, args=[parts[3]])
+    session.fork(song, args=[parts[3]])
 
 
 def create_parts(session: sc.Session):
@@ -104,7 +153,7 @@ def create_parts(session: sc.Session):
 
 
 def create_midi_parts(session: sc.Session):
-    out = 1
+    out = 3
     harp = session.new_midi_part(
         "harp", out, start_channel=0, midi_output_name="harp-KS-C0")
     organ1 = session.new_midi_part("organ", out, start_channel=1)
