@@ -6,10 +6,14 @@ import typing as t
 SCALE = pitch.Scale.major(60)
 SCALE = SCALE.transpose(12)
 
-Score = list[t.Union[float, list[float]]]
+Score = list[t.Union[t.Optional[float], list[float]]]
 
 # s.fast_forward_to_beat(100)
 # s.tempo = 150
+
+
+def rest(n: int):
+    sc.wait(1 * n)
 
 
 def to_pitch(score: Score, scale: pitch.Scale) -> Score:
@@ -22,6 +26,8 @@ def to_pitch(score: Score, scale: pitch.Scale) -> Score:
     for el in score:
         if isinstance(el, list):
             pitch_list.append([scale.degree_to_pitch(p) for p in el])
+        elif el is None:
+            pitch_list.append(None)
         else:
             pitch_list.append(scale.degree_to_pitch(el))
 
@@ -41,12 +47,10 @@ def play_score(track: sc.ScampInstrument, score: Score, dur: list[float],
         if isinstance(note, list):
             track.play_chord(note, volume=vol,
                              length=dur[count], properties=props)
+        elif note is None:
+            rest(dur[count])
         else:
             track.play_note(note, volume=vol,
                             length=dur[count], properties=props)
 
         count += 1
-
-
-def rest(n: int):
-    sc.wait(1 * n)
