@@ -7,11 +7,15 @@ from watchdog.events import FileSystemEventHandler
 import subprocess
 import sys
 
+args = sys.argv[1:]
+
 FILE = Path(sys.argv[1]).resolve()
 
 CWD = FILE.parent
 
-CMD = "exec python " + str(FILE)
+CMD = " ".join((["exec", "python"] + args))
+
+print(CMD)
 
 
 class MyEventHandler(FileSystemEventHandler):
