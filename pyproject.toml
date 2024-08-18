@@ -14,6 +14,8 @@ dependencies = [
     "pyfluidsynth @ git+https://github.com/nwhitehead/pyfluidsynth.git@e3bf5746c68e3b95e0ae11dbedbd5b299d6a9e02",
     "soundfile>=0.12.1",
     "python-dotenv>=1.0.1",
+    "dawdreamer>=0.8.0",
+    "scipy>=1.14.0",
 ]
 readme = "README.md"
 requires-python = ">= 3.11"
